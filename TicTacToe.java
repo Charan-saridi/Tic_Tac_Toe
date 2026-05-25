@@ -1,35 +1,38 @@
-import java.util.Scanner;
-
 public class TicTacToe {
 
-    // Method to get row index
-    public static int getRow(int slot) {
-        int position = slot - 1;
-        return position / 3;
-    }
+    // Validation method
+    public static boolean isValidMove(char[][] board, int row, int col) {
 
-    // Method to get column index
-    public static int getCol(int slot) {
-        int position = slot - 1;
-        return position % 3;
+        // Boundary checking
+        if (row < 0 || row >= 3 || col < 0 || col >= 3) {
+            return false;
+        }
+
+        // Check empty cell
+        if (board[row][col] != ' ') {
+            return false;
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        char[][] board = {
+            {'X', 'O', ' '},
+            {' ', 'X', ' '},
+            {'O', ' ', ' '}
+        };
 
-        // Take slot input
-        System.out.print("Enter slot number (1-9): ");
-        int slot = sc.nextInt();
+        int row = 1;
+        int col = 0;
 
-        // Convert slot to row and column
-        int row = getRow(slot);
-        int col = getCol(slot);
+        boolean result = isValidMove(board, row, col);
 
-        // Display indices
-        System.out.println("Row Index: " + row);
-        System.out.println("Column Index: " + col);
-
-        sc.close();
+        if (result) {
+            System.out.println("Valid Move");
+        } else {
+            System.out.println("Invalid Move");
+        }
     }
 }
