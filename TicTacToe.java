@@ -1,12 +1,18 @@
+import java.util.Random;
+
 public class TicTacToe {
 
-    // Method to place move
-    public static void placeMove(char[][] board, int row, int col, char symbol) {
+    // Validation method
+    public static boolean isValidMove(char[][] board, int row, int col) {
 
-        board[row][col] = symbol;
+        if (row < 0 || row >= 3 || col < 0 || col >= 3) {
+            return false;
+        }
+
+        return board[row][col] == ' ';
     }
 
-    // Method to print board
+    // Print board
     public static void printBoard(char[][] board) {
 
         for (int i = 0; i < 3; i++) {
@@ -28,17 +34,44 @@ public class TicTacToe {
         }
     }
 
+    // Computer move
+    public static void computerMove(char[][] board) {
+
+        Random random = new Random();
+
+        while (true) {
+
+            // Random slot 1-9
+            int slot = random.nextInt(9) + 1;
+
+            // Convert slot
+            int row = (slot - 1) / 3;
+            int col = (slot - 1) % 3;
+
+            // Check move validity
+            if (isValidMove(board, row, col)) {
+
+                // Place O
+                board[row][col] = 'O';
+
+                System.out.println("Computer selected slot: " + slot);
+
+                break;
+            }
+        }
+    }
+
     public static void main(String[] args) {
 
-        // Create empty board
+        // Create board
         char[][] board = {
-            {' ', ' ', ' '},
-            {' ', ' ', ' '},
-            {' ', ' ', ' '}
+            {'X', ' ', ' '},
+            {' ', 'O', ' '},
+            {' ', ' ', 'X'}
         };
 
-        // Place X at row 1, col 1
-        placeMove(board, 1, 1, 'X');
+        // Computer turn
+        computerMove(board);
 
         // Print updated board
         printBoard(board);
