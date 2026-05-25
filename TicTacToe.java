@@ -1,16 +1,4 @@
-import java.util.Random;
-
 public class TicTacToe {
-
-    // Validation method
-    public static boolean isValidMove(char[][] board, int row, int col) {
-
-        if (row < 0 || row >= 3 || col < 0 || col >= 3) {
-            return false;
-        }
-
-        return board[row][col] == ' ';
-    }
 
     // Print board
     public static void printBoard(char[][] board) {
@@ -34,46 +22,76 @@ public class TicTacToe {
         }
     }
 
-    // Computer move
-    public static void computerMove(char[][] board) {
+    // Check win
+    public static boolean checkWin(char[][] board, char symbol) {
 
-        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
 
-        while (true) {
+            if (board[i][0] == symbol &&
+                board[i][1] == symbol &&
+                board[i][2] == symbol) {
 
-            // Random slot 1-9
-            int slot = random.nextInt(9) + 1;
-
-            // Convert slot
-            int row = (slot - 1) / 3;
-            int col = (slot - 1) % 3;
-
-            // Check move validity
-            if (isValidMove(board, row, col)) {
-
-                // Place O
-                board[row][col] = 'O';
-
-                System.out.println("Computer selected slot: " + slot);
-
-                break;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    // Check draw
+    public static boolean isBoardFull(char[][] board) {
+
+        for (int i = 0; i < 3; i++) {
+
+            for (int j = 0; j < 3; j++) {
+
+                if (board[i][j] == ' ') {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public static void main(String[] args) {
 
-        // Create board
         char[][] board = {
-            {'X', ' ', ' '},
-            {' ', 'O', ' '},
-            {' ', ' ', 'X'}
+            {'X', 'X', 'X'},
+            {'O', ' ', ' '},
+            {' ', ' ', ' '}
         };
 
-        // Computer turn
-        computerMove(board);
+        boolean gameRunning = true;
 
-        // Print updated board
-        printBoard(board);
+        char currentPlayer = 'X';
+
+        while (gameRunning) {
+
+            printBoard(board);
+
+            if (checkWin(board, currentPlayer)) {
+
+                System.out.println(currentPlayer + " Wins!");
+
+                gameRunning = false;
+            }
+
+            else if (isBoardFull(board)) {
+
+                System.out.println("Game Draw!");
+
+                gameRunning = false;
+            }
+
+            else {
+
+                if (currentPlayer == 'X') {
+                    currentPlayer = 'O';
+                } else {
+                    currentPlayer = 'X';
+                }
+            }
+        }
     }
 }
